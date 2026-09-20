@@ -1,0 +1,1335 @@
+{
+  "version": "1.21",
+  "settings": {
+    "defaultLanguage": "en",
+    "languages": [
+      "en"
+    ],
+    "description": "",
+    "id": "6e545999-bd58-4a14-8602-51dc8e239fa3",
+    "inactivityTimeout": 30,
+    "botVariables": [],
+    "userVariables": [
+      {
+        "id": "var-5ef1d41bee",
+        "name": "CONVERSATIONMEMORY",
+        "description": "",
+        "type": "string",
+        "scope": "user",
+        "storeAsTag": false
+      }
+    ],
+    "nodeRepetitionLimit": 3,
+    "configVariables": {},
+    "cognitiveConfigs": {
+      "openAi": {}
+    },
+    "useLlmz": true,
+    "defaultBestModel": "openai__gpt-4.1-2025-04-14",
+    "defaultFastModel": "openai__gpt-4.1-mini-2025-04-14",
+    "useClient": true,
+    "llmzVersion": "01-Oct-2024",
+    "autonomousModel": "best-model",
+    "fallbackModel": "google-ai__models/gemini-2.0-flash",
+    "usePushToGit": false,
+    "useCognitiveV2": true,
+    "disablePublishButton": false,
+    "typingIndicatorDisabledByDefault": false
+  },
+  "flows": [
+    {
+      "id": "wf-error",
+      "name": "Error",
+      "startNode": "nd-98dc0bcc87",
+      "variables": [],
+      "links": [
+        {
+          "id": "edg-1cb5862648",
+          "source": "nd-98dc0bcc87",
+          "sourcePort": "trs-02c7129430",
+          "target": "nd-58fca56e01"
+        },
+        {
+          "id": "edg-1c28c96d6a",
+          "source": "nd-58fca56e01",
+          "sourcePort": "nd-58fca56e01",
+          "target": "nd-e05f59dd66"
+        }
+      ],
+      "nodes": [
+        {
+          "comment": "<p><strong><span style=\"font-size: 18px\">⛔️ When something goes wrong</span></strong></p><p><br>This workflow is executed when there's an <strong>unexpected error</strong> in one of the other workflows.</p><p></p><p>You can use this to inform the user of the situation before ending the conversation.</p>",
+          "type": "comment",
+          "id": "nd-8ff3d7d295",
+          "name": "Comment1",
+          "deletable": true,
+          "instructions": [],
+          "height": 148,
+          "width": 401,
+          "x": 90,
+          "y": -45
+        },
+        {
+          "instructions": [
+            {
+              "id": "ins-2762f70004",
+              "type": "content",
+              "content": {
+                "type": "text",
+                "text": {
+                  "staticValue": "Sorry, an error occurred. Please try again later",
+                  "dynamicValue": "",
+                  "valueType": "static"
+                },
+                "typing": {
+                  "valueType": "static",
+                  "staticValue": true
+                }
+              },
+              "nodeId": "nd-58fca56e01",
+              "transitions": []
+            }
+          ],
+          "defaultTransition": {
+            "targetNodeId": "nd-e05f59dd66"
+          },
+          "type": "standard",
+          "id": "nd-58fca56e01",
+          "name": "Handler",
+          "deletable": true,
+          "x": 450,
+          "y": 120
+        },
+        {
+          "id": "nd-98dc0bcc87",
+          "name": "On_Error",
+          "type": "entry",
+          "deletable": false,
+          "variables": [],
+          "instructions": [
+            {
+              "id": "trs-02c7129430",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-58fca56e01"
+              },
+              "transitions": [],
+              "nodeId": "nd-98dc0bcc87"
+            }
+          ],
+          "x": 90,
+          "y": 120,
+          "defaultTransition": {
+            "targetNodeId": null
+          }
+        },
+        {
+          "id": "nd-e05f59dd66",
+          "name": "End",
+          "type": "end",
+          "variables": [],
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-945140a646",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": [],
+              "nodeId": "nd-e05f59dd66"
+            }
+          ],
+          "x": 810,
+          "y": 120
+        }
+      ]
+    },
+    {
+      "id": "wf-timeout",
+      "name": "Timeout",
+      "startNode": "nd-9f7f3268ac",
+      "variables": [],
+      "links": [
+        {
+          "id": "edg-b0d2adcd13",
+          "source": "nd-e6c012a652",
+          "sourcePort": "nd-e6c012a652",
+          "target": "nd-199fdcf439"
+        },
+        {
+          "id": "edg-6d17a0591b",
+          "source": "nd-9f7f3268ac",
+          "sourcePort": "trs-0c7a9a0003",
+          "target": "nd-e6c012a652"
+        }
+      ],
+      "nodes": [
+        {
+          "instructions": [],
+          "defaultTransition": {
+            "targetNodeId": "nd-199fdcf439"
+          },
+          "type": "standard",
+          "id": "nd-e6c012a652",
+          "name": "Handler",
+          "deletable": true,
+          "x": 435,
+          "y": 105
+        },
+        {
+          "comment": "<p><strong><span style=\"font-size: 18px\">⌛️ When conversation times out</span></strong></p><p><br>This workflow is executed when the conversation <strong>times out</strong> before it had time to flow to an <strong>End Node</strong>.</p><p></p><p>The <strong>Timeout Delay</strong> is configurable in the <strong>Chatbot Settings.</strong></p><p></p><p>You can use this to inform the user of the situation before ending the conversation.</p>",
+          "type": "comment",
+          "id": "nd-441efa6c42",
+          "name": "Comment1",
+          "deletable": true,
+          "instructions": [],
+          "height": 173,
+          "width": 401,
+          "x": 105,
+          "y": -90
+        },
+        {
+          "id": "nd-9f7f3268ac",
+          "name": "On_Timeout",
+          "type": "entry",
+          "deletable": false,
+          "variables": [],
+          "instructions": [
+            {
+              "id": "trs-0c7a9a0003",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-e6c012a652"
+              },
+              "transitions": []
+            }
+          ],
+          "x": 100,
+          "y": 100,
+          "defaultTransition": {
+            "targetNodeId": null
+          }
+        },
+        {
+          "id": "nd-199fdcf439",
+          "name": "End",
+          "type": "end",
+          "variables": [],
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-bf76943d55",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": []
+            }
+          ],
+          "x": 795,
+          "y": 105
+        }
+      ]
+    },
+    {
+      "id": "wf-conversation-end",
+      "name": "Conversation End",
+      "startNode": "nd-c0d3bd2c92",
+      "variables": [],
+      "links": [
+        {
+          "id": "edg-3cb8028ff6",
+          "source": "nd-c0d3bd2c92",
+          "sourcePort": "trs-92c6f93b0c",
+          "target": "nd-2db7499cc6"
+        },
+        {
+          "id": "edg-8a88f687a0",
+          "source": "nd-2db7499cc6",
+          "sourcePort": "nd-2db7499cc6",
+          "target": "nd-d0c2a6be81"
+        }
+      ],
+      "nodes": [
+        {
+          "instructions": [],
+          "defaultTransition": {
+            "targetNodeId": "nd-d0c2a6be81"
+          },
+          "type": "standard",
+          "id": "nd-2db7499cc6",
+          "name": "Handler",
+          "deletable": true,
+          "x": 420,
+          "y": 105
+        },
+        {
+          "comment": "<p><strong><span style=\"font-size: 18px\">👋 Before Conversation Ends</span></strong></p><p><br>This workflow is executed when right before the conversation <strong>Ends Explicitly.</strong></p><p></p><p>An <strong>Explicit Ending</strong> happens when a workflow transitions on an <strong>End Node</strong>.</p>",
+          "type": "comment",
+          "id": "nd-6d5d3f41dd",
+          "name": "Comment1",
+          "deletable": true,
+          "instructions": [],
+          "height": 148,
+          "width": 461,
+          "x": 105,
+          "y": -45
+        },
+        {
+          "id": "nd-c0d3bd2c92",
+          "name": "On_Explicit_Ending",
+          "type": "entry",
+          "deletable": false,
+          "variables": [],
+          "instructions": [
+            {
+              "id": "trs-92c6f93b0c",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-2db7499cc6"
+              },
+              "transitions": []
+            }
+          ],
+          "x": 100,
+          "y": 100,
+          "defaultTransition": {
+            "targetNodeId": null
+          }
+        },
+        {
+          "id": "nd-d0c2a6be81",
+          "name": "End",
+          "type": "end",
+          "variables": [],
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-7004dbb2b6",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": []
+            }
+          ],
+          "x": 780,
+          "y": 105
+        }
+      ]
+    },
+    {
+      "topicId": "tpc-global",
+      "id": "wf-main",
+      "name": "Main",
+      "startNode": "nd-2bb9db230d",
+      "variables": [],
+      "links": [],
+      "nodes": [
+        {
+          "id": "nd-2bb9db230d",
+          "name": "Start",
+          "type": "start",
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-8b0779edc5",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "nd-54aa0c19de"
+              },
+              "transitions": [],
+              "nodeId": "nd-2bb9db230d"
+            }
+          ],
+          "x": -105,
+          "y": -180,
+          "kbPriority": {
+            "enabled": true,
+            "searchScope": "all",
+            "kbs": []
+          }
+        },
+        {
+          "id": "nd-80ac4ff158",
+          "name": "End",
+          "type": "end",
+          "deletable": false,
+          "instructions": [
+            {
+              "id": "trs-0260f5e672",
+              "type": "transition",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "transitions": [],
+              "nodeId": "nd-80ac4ff158"
+            }
+          ],
+          "x": 570,
+          "y": -45
+        },
+        {
+          "type": "autonomous",
+          "deletable": true,
+          "x": 135,
+          "y": -390,
+          "instructions": [
+            {
+              "id": "ins-fc52bf034b",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Generate Content",
+              "category": "OpenAI",
+              "integrationId": "openai",
+              "actionName": "generateContent",
+              "nodeId": "nd-54aa0c19de",
+              "manualFields": [],
+              "model": {
+                "id": "gpt-5.4-2026-03-05"
+              },
+              "messages": [],
+              "maxTokens": {
+                "valueType": "static",
+                "staticValue": 0,
+                "dynamicValue": ""
+              },
+              "temperature": 1,
+              "topP": 1,
+              "stopSequences": {
+                "valueType": "static",
+                "staticValue": [],
+                "dynamicValue": ""
+              },
+              "toolChoice": {
+                "type": "auto",
+                "functionName": {
+                  "valueType": "dynamic",
+                  "dynamicValue": "check the content "
+                }
+              },
+              "guidelines": {
+                "valueType": "dynamic",
+                "dynamicValue": "dont use any sensitive contents create or search the wide use of resourse to be able to get the answer to those quesion and queries"
+              },
+              "forceThink": {
+                "valueType": "static",
+                "staticValue": true
+              },
+              "transitions": []
+            },
+            {
+              "id": "ins-7fe289c3ee",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Generate Image",
+              "category": "OpenAI",
+              "integrationId": "openai",
+              "actionName": "generateImage",
+              "nodeId": "nd-54aa0c19de",
+              "manualFields": [],
+              "model": {
+                "id": {
+                  "valueType": "dynamic",
+                  "dynamicValue": "IMAGE GENERATED SUCCESSFULLY"
+                }
+              },
+              "prompt": "",
+              "expiration": {
+                "valueType": "static",
+                "staticValue": 30,
+                "dynamicValue": ""
+              },
+              "params": {
+                "user": {
+                  "valueType": "dynamic",
+                  "dynamicValue": "workflow.userPrompt"
+                }
+              },
+              "guidelines": {
+                "valueType": "dynamic",
+                "dynamicValue": "dont develop any sensitive images "
+              },
+              "transitions": []
+            },
+            {
+              "id": "ins-a5dc2522af",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Bar Chart",
+              "category": "Charts",
+              "integrationId": "charts",
+              "actionName": "generateBarChart",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "name": "extractImageContent",
+              "title": "Extract Content from Image",
+              "description": "Extracts text content and descriptions from an image",
+              "input": {
+                "__type__": "ZuiType",
+                "_def": {
+                  "unknownKeys": "strip",
+                  "typeName": "ZodObject"
+                },
+                "_cached": null
+              },
+              "output": {
+                "__type__": "ZuiType",
+                "_def": {
+                  "type": {
+                    "__type__": "ZuiType",
+                    "_def": {
+                      "innerType": {
+                        "__type__": "ZuiType",
+                        "_def": {
+                          "checks": [],
+                          "typeName": "ZodString",
+                          "coerce": false,
+                          "description": "The content of the images"
+                        }
+                      },
+                      "typeName": "ZodOptional"
+                    }
+                  },
+                  "typeName": "ZodPromise"
+                }
+              },
+              "id": "ins-65f21c16ed",
+              "label": "Extract Content from Image",
+              "type": "autonomous",
+              "toolType": "agent",
+              "category": "Agents",
+              "agentId": "VisionAgent",
+              "toolId": "extractImageContent",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-38447e34d0",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Transcribe Audio",
+              "category": "OpenAI",
+              "integrationId": "openai",
+              "actionName": "transcribeAudio",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": [],
+              "manualFields": []
+            },
+            {
+              "id": "ins-9d9a1e2462",
+              "type": "autonomous",
+              "toolType": "table",
+              "enabledOperations": {
+                "findRows": {
+                  "staticValue": false,
+                  "valueType": "static"
+                },
+                "createRows": {
+                  "staticValue": false,
+                  "valueType": "static"
+                },
+                "updateRows": {
+                  "staticValue": false,
+                  "valueType": "static"
+                },
+                "deleteRows": {
+                  "staticValue": false,
+                  "valueType": "static"
+                }
+              },
+              "label": "Int_Improvement_Feedback_Table",
+              "category": "Execute",
+              "tableId": "table_01M1HA541R3D192WBWR2CVPG40",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-9afa761bb1",
+              "type": "autonomous",
+              "toolType": "plugin",
+              "label": "Get Business Hours",
+              "category": "Plugins",
+              "pluginName": "desk-hitl",
+              "actionName": "getBusinessHours",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-c882ad8a18",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Get Website Logo",
+              "category": "Browser",
+              "integrationId": "browser",
+              "actionName": "getWebsiteLogo",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-dfc08ef97a",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Browse Pages",
+              "category": "Browser",
+              "integrationId": "browser",
+              "actionName": "browsePages",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-29325d27a9",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Create Or Update Feedback Entry For Iteration",
+              "category": "Improvement",
+              "integrationId": "agi/improvement",
+              "actionName": "saveFeedback",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-90ed6d32e2",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "HTML To PDF",
+              "category": "PDF Generator",
+              "integrationId": "pdf-generator",
+              "actionName": "fromHtml",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-4982e5277b",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "List Language Models",
+              "category": "OpenAI",
+              "integrationId": "openai",
+              "actionName": "listLanguageModels",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-f31bde66a7",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "List Image Models",
+              "category": "OpenAI",
+              "integrationId": "openai",
+              "actionName": "listImageModels",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-481c3f5332",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Capture Screenshot",
+              "category": "Browser",
+              "integrationId": "browser",
+              "actionName": "captureScreenshot",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-25fa7613b8",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Generate Content",
+              "category": "Fireworks AI",
+              "integrationId": "fireworks-ai",
+              "actionName": "generateContent",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-504238e1da",
+              "type": "autonomous",
+              "toolType": "plugin",
+              "label": "Update Customer In Desk",
+              "category": "Plugins",
+              "pluginName": "desk-hitl",
+              "actionName": "updateCustomer",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-c98f052089",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Generate Content",
+              "category": "Anthropic",
+              "integrationId": "anthropic",
+              "actionName": "generateContent",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-a126b9510d",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Generate Content",
+              "category": "Cerebras",
+              "integrationId": "cerebras",
+              "actionName": "generateContent",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-08bf32b5b9",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Generate Content",
+              "category": "Google AI",
+              "integrationId": "google-ai",
+              "actionName": "generateContent",
+              "nodeId": "nd-54aa0c19de",
+              "manualFields": [],
+              "model": {
+                "id": "gemini-3-pro"
+              },
+              "messages": [],
+              "maxTokens": {
+                "valueType": "static",
+                "staticValue": 0,
+                "dynamicValue": ""
+              },
+              "temperature": 1,
+              "topP": 1,
+              "stopSequences": {
+                "valueType": "static",
+                "staticValue": [],
+                "dynamicValue": ""
+              },
+              "transitions": []
+            },
+            {
+              "id": "ins-16cac1097f",
+              "nodeId": "nd-54aa0c19de",
+              "type": "autonomous",
+              "toolType": "transition",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "destination": {},
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "bye ",
+                "staticValue": ""
+              },
+              "transitions": []
+            },
+            {
+              "id": "ins-e90c87c0db",
+              "nodeId": "nd-54aa0c19de",
+              "type": "autonomous",
+              "toolType": "transition",
+              "category": "Flow Logic",
+              "label": "Transition",
+              "destination": {},
+              "condition": {
+                "valueType": "dynamic",
+                "dynamicValue": "see you later",
+                "staticValue": ""
+              },
+              "manualFields": [],
+              "transitions": []
+            },
+            {
+              "id": "ins-21713a40f3",
+              "type": "autonomous",
+              "toolType": "bot-action",
+              "actionId": "act-4718a87467",
+              "category": "Bot Actions",
+              "label": "generateFreeImage",
+              "description": "Generates a URL for an AI-generated image based on the provided prompt.",
+              "nodeId": "nd-54aa0c19de",
+              "transitions": []
+            },
+            {
+              "id": "ins-8448faa437",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Check Availability",
+              "category": "Google Calendar",
+              "integrationId": "googlecalendar",
+              "actionName": "checkAvailability",
+              "nodeId": "nd-54aa0c19de",
+              "manualFields": [
+                "timezone"
+              ],
+              "timeMin": "",
+              "timeMax": "",
+              "slotDurationMinutes": {
+                "valueType": "static",
+                "staticValue": 45,
+                "dynamicValue": ""
+              },
+              "timezone": {
+                "valueType": "dynamic",
+                "dynamicValue": "asia/kolkata"
+              },
+              "transitions": []
+            },
+            {
+              "id": "ins-4e23fdca0b",
+              "type": "autonomous",
+              "toolType": "integration",
+              "origin": "integration",
+              "label": "Create Event",
+              "category": "Google Calendar",
+              "integrationId": "googlecalendar",
+              "actionName": "createEvent",
+              "nodeId": "nd-54aa0c19de",
+              "manualFields": [
+                "timezone"
+              ],
+              "summary": "",
+              "location": {
+                "valueType": "dynamic",
+                "dynamicValue": ""
+              },
+              "startDateTime": "",
+              "endDateTime": "",
+              "guestsCanInviteOthers": true,
+              "guestsCanSeeOtherGuests": true,
+              "recurrence": {
+                "valueType": "static",
+                "staticValue": [],
+                "dynamicValue": ""
+              },
+              "status": "confirmed",
+              "visibility": "default",
+              "sendNotifications": true,
+              "guidelines": {
+                "valueType": "dynamic",
+                "dynamicValue": "Create a calendar event only after the user has confirmed the appointment time. Use the date and time requested by the user. Use Asia/Kolkata timezone. Do not create an event if availability has not been confirmed."
+              },
+              "transitions": []
+            }
+          ],
+          "id": "nd-54aa0c19de",
+          "name": "AutonomousNode",
+          "writableVariables": [
+            "var-5ef1d41bee"
+          ],
+          "allowConversation": true,
+          "guidelines": {
+            "valueType": "dynamic",
+            "dynamicValue": "You are ROGX, an AI assistant. Your name is ROGX — always introduce yourself as ROGX and confirm this is your name whenever asked. Never claim to be ChatGPT, GPT, or any other model or product. When greeting a user or when asked \"what's your name,\" \"who are you,\" etc., respond naturally in character as ROGX. YOUR JOB IS TO ANSWER THE DAY TO DAY QUESTIONS AS PERSONAL ASSISTANT. You can answer general knowledge questions using your own understanding, even if the topic isn't in the knowledge base. Only say you don't know if you genuinely cannot answer. When asked to generate or create an image, use the image generation tool available to you. When a user asks you to generate or create an image, use the generateFreeImage tool with their description as the prompt input. Reply with the resulting imageUrl so the user can view or click the image. Remember the user's name using the userName variable. If not set, ask for it and save it. You have access to a variable called CONVERSATIONMEMORY, scoped to the user. When a user wants to book an appointment, first use Check Availability to verify the requested date and time. If the time is available, ask the user to confirm the booking. Only after the user confirms, use Create Event to create the Google Calendar event. Use Asia/Kolkata timezone. Never create an event without the user's confirmation.\nUse it to remember important facts about this user across conversations — their name,\npreferences, recurring tasks, or anything they ask you to remember.\nBefore responding, check this variable for relevant context.\nWhen you learn something new and lasting, update this variable to include it.\nTONE: Friendly, direct, and efficient. No unnecessary fluff or over-explaining.\nwhat you can help with:\n- answering general questions\n- looking things up using your available tools\n- summarizing or organizing information\n- drafting text (messages, notes, etc.) when asked\n- give ideas regarding the [topic] and a mind map, if asked\nRules:\n- if you don't know something and no tool can help, say so honestly instead of guessing.\n- keep answers concise unless asked for more details.\n- never make up facts, numbers, or sources\n- if a request is unclear, ask a clarifying question before proceeding.\ntool usage rules:\n- if the user ask a question that might be answered by documents you have, use /search knowledge first before answering.\n- if the user asks you to write, drafts, or generate written contents, use /Generate content.\n- if the user asks about business hours, use /get business hours.\n- do not use a tool if you already know the answer confidently - only use tools when they add real value.\n- never use a tool just because its available; only use it when the user's request clearly calls for it.\n- if I ask something that requires current or external information, use /browse pages.\n- if I send an image or screenshot and ask about it, use /extract content from image."
+          },
+          "readableVariables": [
+            "var-5ef1d41bee"
+          ],
+          "modelOverride": "anthropic__claude-sonnet-5",
+          "ragModelOverride": "anthropic__claude-sonnet-5"
+        },
+        {
+          "type": "video",
+          "deletable": true,
+          "instructions": [],
+          "x": 105,
+          "y": -645,
+          "youtubeUrl": "https://www.youtube.com/watch?v=ryNPbXV135s",
+          "id": "nd-0a8441430e",
+          "name": "Video1",
+          "data": {
+            "type": "video",
+            "deletable": true,
+            "instructions": [],
+            "x": 90,
+            "y": -615,
+            "youtubeUrl": "https://www.youtube.com/watch?v=ryNPbXV135s",
+            "id": "nd-0a8441430e",
+            "name": "Video1",
+            "height": 270,
+            "width": 410
+          }
+        },
+        {
+          "type": "end",
+          "deletable": true,
+          "x": 180,
+          "y": -270,
+          "instructions": [
+            {
+              "id": "trs-7c0ddbb49c",
+              "type": "transition",
+              "label": "",
+              "condition": {
+                "type": "expression",
+                "payload": "true"
+              },
+              "destination": {
+                "node": "END"
+              },
+              "generative": {
+                "label": "",
+                "properties": {
+                  "label": true,
+                  "condition": true
+                },
+                "suggestion": {
+                  "label": "",
+                  "condition": "true"
+                }
+              },
+              "nodeId": "nd-776dc710bb",
+              "transitions": []
+            }
+          ],
+          "id": "nd-776dc710bb",
+          "name": "End1"
+        }
+      ],
+      "parentFolder": "root"
+    }
+  ],
+  "intents": [
+    {
+      "id": "int-cancel",
+      "name": "cancel",
+      "utterances_with_slots": [
+        "cancel",
+        "abort",
+        "abandon",
+        "i want to cancel",
+        "forget about this",
+        "leave",
+        "stop",
+        "quit",
+        "you know what, nevermind",
+        "forget it"
+      ]
+    },
+    {
+      "id": "int-no",
+      "name": "no",
+      "utterances_with_slots": [
+        "no",
+        "i don't want to",
+        "absolutely not",
+        "nah",
+        "nope",
+        "not really",
+        "not sure",
+        "no thanks"
+      ]
+    },
+    {
+      "id": "int-yes",
+      "name": "yes",
+      "utterances_with_slots": [
+        "yes",
+        "yeah",
+        "absolutely",
+        "i'd like to",
+        "sure ",
+        "hmm probably",
+        "yup",
+        "ok"
+      ]
+    }
+  ],
+  "list_entities": [],
+  "pattern_entities": [],
+  "actions": [
+    {
+      "type": "code",
+      "id": "act-4718a87467",
+      "description": "Generates a URL for an AI-generated image based on the provided prompt.",
+      "name": "generateFreeImage",
+      "raw_code": "try {\n  const encodedPrompt = encodeURIComponent(input.prompt)\n  const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}`\n  return { imageUrl }\n} catch (error) {\n  throw new Error(`Failed to generate image URL: ${error.message}`)\n}\n",
+      "transpiled_code": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  try {\n    const encodedPrompt = encodeURIComponent(input.prompt);\n    const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}`;\n    return { imageUrl };\n  } catch (error) {\n    throw new Error(`Failed to generate image URL: ${error.message}`);\n  }\n  ;\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();",
+      "input_schema": {
+        "type": "schema",
+        "schemaId": "schema-0d4b2811ca"
+      },
+      "output_schema": {
+        "type": "schema",
+        "schemaId": "schema-5dbda00512"
+      }
+    }
+  ],
+  "hooks": [
+    {
+      "id": "hk-99mudt",
+      "name": "track_iterations",
+      "hookType": "after_llmz_execution",
+      "content": "await actions[\"agi/improvement\"].trackIterations({\n  iterations: execution.iterations.map((iteration) => ({\n    uri: `workflow://${execution.location?.workflowId}/${execution.location?.nodeId}`,\n    conversationId: event.conversationId!,\n    executionId: execution.context.id,\n    iterationId: iteration.id,\n    eventId: event.messageId ?? event.id,\n    userId: event.userId!,\n    iteration: {\n      code: iteration.code ?? \"\",\n      ended_ts: iteration.ended_ts,\n      started_ts: iteration.started_ts,\n      messages: iteration.messages,\n      model: iteration.llm.model,\n      mutations: iteration.mutations,\n      status: iteration.status,\n    },\n  })),\n});\n",
+      "title": "Track LLMz Iterations",
+      "description": "This hook tracks iterations after LLMz execution",
+      "origin": {
+        "type": "integration",
+        "integration": {
+          "id": "agi/improvement",
+          "name": "agi/improvement",
+          "version": "1.0.2",
+          "title": "Improvement"
+        }
+      },
+      "transpiledCode": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  await actions[\"agi/improvement\"].trackIterations({\n    iterations: execution.iterations.map((iteration) => ({\n      uri: `workflow://${execution.location?.workflowId}/${execution.location?.nodeId}`,\n      conversationId: event.conversationId,\n      executionId: execution.context.id,\n      iterationId: iteration.id,\n      eventId: event.messageId ?? event.id,\n      userId: event.userId,\n      iteration: {\n        code: iteration.code ?? \"\",\n        ended_ts: iteration.ended_ts,\n        started_ts: iteration.started_ts,\n        messages: iteration.messages,\n        model: iteration.llm.model,\n        mutations: iteration.mutations,\n        status: iteration.status\n      }\n    }))\n  });\n  ;\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();"
+    },
+    {
+      "id": "hk-1q8lg5q",
+      "name": "inject_learnings",
+      "hookType": "before_llmz_execution",
+      "content": "const { items } = await actions[\"agi/improvement\"].findFeedback({\n  uri: `workflow://${context.location?.workflowId}/${context.location?.nodeId}`,\n  search: context.transcript.map((x) => `${x.role}: ${x.content}`).join(\"\\n\"),\n});\n\nif (items.length) {\n  context.instructions += `\n\n    ## Learnings from Previous Experiences\n\n    ${items\n      .map(\n        (x, i) => `### Learning ${i + 1}\n    ${x.learning}\n    `\n      )\n      .join(\"\\n\")}\n    `;\n}\n",
+      "title": "Provide Learnings to LLMz",
+      "description": "This hook injects learnings into LLMz before execution",
+      "origin": {
+        "type": "integration",
+        "integration": {
+          "id": "agi/improvement",
+          "name": "agi/improvement",
+          "version": "1.0.2",
+          "title": "Improvement"
+        }
+      },
+      "transpiledCode": "var __defProp = Object.defineProperty;\nvar __name = (target, value) => __defProp(target, \"name\", { value, configurable: true });\nasync function __ROOT__() {\n  const { items } = await actions[\"agi/improvement\"].findFeedback({\n    uri: `workflow://${context.location?.workflowId}/${context.location?.nodeId}`,\n    search: context.transcript.map((x) => `${x.role}: ${x.content}`).join(\"\\n\")\n  });\n  if (items.length) {\n    context.instructions += `\n\n    ## Learnings from Previous Experiences\n\n    ${items.map(\n      (x, i) => `### Learning ${i + 1}\n    ${x.learning}\n    `\n    ).join(\"\\n\")}\n    `;\n  }\n  ;\n}\n__name(__ROOT__, \"__ROOT__\");\n; return await __ROOT__();"
+    }
+  ],
+  "qnas": [],
+  "folders": [],
+  "agents": {
+    "SummaryAgent": {
+      "enabled": false,
+      "config": {
+        "summaryMaxTokens": 100,
+        "transcriptMaxLines": 10,
+        "model": "fast-model"
+      }
+    },
+    "TranslatorAgent": {
+      "config": {
+        "detectLanguage": true
+      }
+    },
+    "KnowledgeAgent": {
+      "enabled": false,
+      "config": {
+        "answerManually": true,
+        "context": "Summary of the conversation:\n\"\"\"\n{{conversation.SummaryAgent.summary}}\n\"\"\"\n\nTranscript:\n\"\"\"\n{{conversation.SummaryAgent.transcript}}\n\"\"\"",
+        "bestModel": "gpt-4-turbo",
+        "fastestModel": "fast-model",
+        "questionModel": "fast-model",
+        "strategy": "hybrid",
+        "chunks": 50
+      }
+    },
+    "PersonalityAgent": {
+      "config": {
+        "personality": ""
+      }
+    },
+    "VisionAgent": {
+      "enabled": true,
+      "config": {
+        "extractionEnabled": true
+      }
+    }
+  },
+  "tables": {
+    "table_01M1HA540W3XQ0TD6W5QEKNPED": {
+      "id": "table_01M1HA540W3XQ0TD6W5QEKNPED",
+      "name": "RouterAgentTable",
+      "factor": 1,
+      "frozen": false,
+      "keyColumn": null,
+      "tags": {
+        "role": "agents/router/intents",
+        "agent": "RouterAgent",
+        "system": "true"
+      },
+      "createdAt": "2026-09-02T15:00:16.029Z",
+      "updatedAt": "2026-09-02T15:00:16.029Z",
+      "createdBy": "user:03781f0c-f9f0-4b90-aabc-ead003ed0850",
+      "updatedBy": null,
+      "isComputeEnabled": false,
+      "unavailableColumns": [],
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "phrase",
+          "intentId",
+          "phraseId"
+        ],
+        "properties": {
+          "phrase": {
+            "type": "string",
+            "x-zui": {
+              "index": 0,
+              "searchable": true
+            }
+          },
+          "intentId": {
+            "type": "string",
+            "x-zui": {
+              "index": 1,
+              "searchable": true
+            }
+          },
+          "phraseId": {
+            "type": "string",
+            "x-zui": {
+              "index": 2,
+              "searchable": true
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "parentFolder": "root",
+      "selectors": []
+    },
+    "table_01M1HA541R3D192WBWR2CVPG40": {
+      "id": "table_01M1HA541R3D192WBWR2CVPG40",
+      "name": "Int_Improvement_Feedback_Table",
+      "factor": 30,
+      "frozen": true,
+      "keyColumn": null,
+      "tags": {
+        "origin": "integration",
+        "purpose": "improvement",
+        "version": "Nov-2024",
+        "integration": "Int_Improvement",
+        "x-studio-icon": "lucide://atom",
+        "x-studio-color": "green",
+        "x-studio-title": "Feedback",
+        "x-studio-readonly": "true",
+        "x-studio-description": "Table to store acquired feedback on iterations for active learning"
+      },
+      "createdAt": "2026-09-02T15:00:16.057Z",
+      "updatedAt": "2026-09-02T15:00:16.057Z",
+      "createdBy": "user:03781f0c-f9f0-4b90-aabc-ead003ed0850",
+      "updatedBy": null,
+      "isComputeEnabled": true,
+      "unavailableColumns": [],
+      "schema": {
+        "type": "object",
+        "x-zui": {},
+        "required": [
+          "uri",
+          "after",
+          "before",
+          "feedback",
+          "iterationId"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "x-zui": {
+              "index": 0,
+              "searchable": true
+            },
+            "maxLength": 250,
+            "minLength": 1
+          },
+          "after": {
+            "type": "string",
+            "x-zui": {
+              "index": 1,
+              "searchable": true
+            },
+            "minLength": 1
+          },
+          "before": {
+            "type": "string",
+            "x-zui": {
+              "index": 2,
+              "searchable": true
+            },
+            "minLength": 1
+          },
+          "feedback": {
+            "type": "string",
+            "x-zui": {
+              "index": 3,
+              "searchable": true
+            },
+            "minLength": 1
+          },
+          "learning": {
+            "type": "string",
+            "x-zui": {
+              "index": 4,
+              "computed": {
+                "model": "fast-model",
+                "action": "ai",
+                "prompt": "What would you tell your future self to improve next time?\nCode Before:\n\n```\n{{before}}\n```\n\nFeedback: \"{{feedback}}\"\n\nCode After:\n\n```\n{{after}}\n```\n\nFor the learning, it must be standalone, concise but also accurately depict the situation and feedback you were given.\n\nTry to follow one of the below structures:\n\n<example>\nIn [situation X], I learned that I should [use tool `X` rather than `Y` because ...]\n\n\\`\\`\\`\n// snippet using the right tool\n\\`\\`\\`\n</example>\n\n<example>\nWhen trying to [...], I should use [tool X, tool Y or tool Z] like this:\n\n\\`\\`\\`\n// snippet to explain a drastic code change between before and after, or a non-obvious code snippet\n\\`\\`\\`\n</example>\n\n<example>\nWhenever [Y] happens, I should avoid [...] and instead [...].\n\n\\`\\`\\`\n// snippet to implement the behavior change\n\\`\\`\\`\n</example>\n\nKeep it concise. Do not refer to \"this situation\" or to the feedback. Both have been provided by an expert reviewing the conversation, NOT the actual user. So you must embed the content from the above inside your learning so it is standalone.\nMake sure to include a code snippet that teaches the right behavior, but remaining generic enough to adapt to different conversations in the future.\n",
+                "dependencies": [
+                  "before",
+                  "feedback",
+                  "after"
+                ]
+              },
+              "searchable": true
+            },
+            "default": null,
+            "nullable": true,
+            "minLength": 1
+          },
+          "iterationId": {
+            "type": "string",
+            "x-zui": {
+              "index": 5,
+              "searchable": true
+            },
+            "maxLength": 100,
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
+      },
+      "parentFolder": "root",
+      "selectors": []
+    }
+  },
+  "schemas": [
+    {
+      "code": "z.object({\n  prompt: z.string().describe('A text description of the image to generate')\n})\n",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "A text description of the image to generate",
+            "x-zui": {}
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "additionalProperties": false,
+        "x-zui": {}
+      },
+      "name": "generateFreeImageInput",
+      "typings": "",
+      "id": "schema-0d4b2811ca"
+    },
+    {
+      "code": "z.object({\n  imageUrl: z.string().url().describe('The URL of the generated image')\n})\n",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL of the generated image",
+            "x-zui": {}
+          }
+        },
+        "required": [
+          "imageUrl"
+        ],
+        "additionalProperties": false,
+        "x-zui": {}
+      },
+      "name": "generateFreeImageOutput",
+      "typings": "",
+      "id": "schema-5dbda00512"
+    }
+  ],
+  "versions": [
+    {
+      "name": "09 Sep 26 10:35",
+      "id": "version_01M23J3V0GTKK2MQTGT7GYDD5H"
+    },
+    {
+      "name": "09 Sep 26 09:55",
+      "id": "version_01M23FTP052GRS5RFDR3K5DTEZ"
+    },
+    {
+      "name": "09 Sep 26 08:30",
+      "id": "version_01M23AZ8ZGDZR7JQX9DJR32558"
+    }
+  ],
+  "revision": 840,
+  "revisionMetadata": {
+    "lastRevisionCheckAt": "2026-09-20T11:42:01.905Z",
+    "lastRevisionId": -1,
+    "multiplayerStatus": "connected",
+    "multiplayerTraces": [
+      "2026-09-20T11:41:39.192Z: Initializing Client... - {\"initializing\":false,\"initialized\":false}",
+      "2026-09-20T11:41:39.235Z: Connection State: initialized -> connecting (ok)",
+      "2026-09-20T11:41:40.614Z (7ho5f1b_yu): Connection State: connecting -> connected (ok)",
+      "2026-09-20T11:41:40.782Z (7ho5f1b_yu): Multiplayer session initialized!",
+      "2026-09-20T11:41:40.880Z (7ho5f1b_yu): Player entered channel - {\"sessionId\":\"sess_01M2Z9XS8JMKZE6NQK8GWEGJY6\",\"connectionId\":\"7ho5f1b_yu\",\"joinedAt\":\"2026-09-20T11:41:40.784Z\",\"email\":\"prithiverogan2008@gmail.com\",\"displayName\":\"Techbuilder rogan\",\"color\":\"var(--purple-8)\",\"workspaceUserId\":\"03781f0c-f9f0-4b90-aabc-ead003ed0850\",\"lastActiveAt\":\"Sun, 20 Sep 2026 11:41:39 GMT\",\"connectedAt\":\"Sun, 20 Sep 2026 11:41:39 GMT\",\"sections\":[]}",
+      "2026-09-20T11:41:40.882Z (7ho5f1b_yu): prithiverogan2008@gmail.com was elected as master - \"sess_01M2Z9XS8JMKZE6NQK8GWEGJY6\""
+    ],
+    "players": [
+      "prithiverogan2008@gmail.com / sess_01M2Z9XS8JMKZE6NQK8GWEGJY6 / Sun, 20 Sep 2026 11:41:39 GMT /  2026-09-20T11:42:01.540Z"
+    ],
+    "savedAt": "2026-09-20T11:42:01.905Z",
+    "savedBy": "prithiverogan2008@gmail.com",
+    "sessionId": "sess_01M2Z9XS8JMKZE6NQK8GWEGJY6"
+  },
+  "identity": {
+    "name": "ROGX",
+    "manual_instructions": "",
+    "icon": {
+      "type": "emoji",
+      "emoji": "🤖 ",
+      "background_color": "oklch(var(--color-orange-500))"
+    },
+    "ai_summary": {
+      "value": "Chatbot named sparkling-eland provides concise information.",
+      "input_hash": "7j8s9",
+      "generated_at": "2025-02-26T18:41:46.789Z",
+      "version": "1.0.0"
+    }
+  },
+  "id": "6e545999-bd58-4a14-8602-51dc8e239fa3"
+}

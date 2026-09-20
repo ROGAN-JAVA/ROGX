@@ -1,5 +1,5 @@
 ROGX:
-🚀 **Try it live:** [Chat with ROGX](https://cdn.botpress.cloud/webchat/v3.7/shareable.html?configUrl=https://files.bpcontent.cloud/2026/09/02/15/20260902152442-HD4P68N5.json)
+🚀 **Try it live:** [Chat with ROGX](https://cdn.botpress.cloud/webchat/v3.7/shareable.html?configUrl=https://files.bpcontent.cloud/2026/09/02/15/20260902152442-HD4P68N5.json
 
 ROGX is an enterprise-grade conversational AI engine built using the **Botpress** platform. It combines robust Natural Language Understanding (NLU) with advanced workflow automation to deliver intelligent, multi-turn user experiences. This project demonstrates practical expertise in conversational architecture, state management, and external API orchestration.
 
